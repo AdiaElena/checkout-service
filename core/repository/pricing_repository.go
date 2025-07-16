@@ -1,0 +1,40 @@
+package repository
+
+import (
+	"fmt"
+
+	"github.com/AdiaElena/checkout-service/core/model"
+)
+
+type PricingRepository interface {
+	GetPricingRule(sku string) (*model.PricingRule, error)
+	IsValidSKU(sku string) bool
+}
+
+type pricingRepo struct {
+	rules map[string]*model.PricingRule
+}
+
+func NewPricingRepository() PricingRepository {
+	return &pricingRepo{
+		rules: map[string]*model.PricingRule{
+			"A": {SKU: "A", UnitPrice: 50, SpecialQty: 3, SpecialPrice: 130},
+			"B": {SKU: "B", UnitPrice: 30, SpecialQty: 2, SpecialPrice: 45},
+			"C": {SKU: "C", UnitPrice: 20},
+			"D": {SKU: "D", UnitPrice: 15},
+		},
+	}
+}
+
+func (p *pricingRepo) GetPricingRule(sku string) (*model.PricingRule, error) {
+	rule, exists := p.rules[sku]
+	if !exists {
+		return nil, fmt.Errorf("pricing rule not found for SKU: %q", sku)
+	}
+	return rule, nil
+}
+
+func (p *pricingRepo) IsValidSKU(sku string) bool {
+	_, exists := p.rules[sku]
+	return exists
+}
