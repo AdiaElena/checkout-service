@@ -3,7 +3,7 @@ package repository_test
 import (
 	"testing"
 
-	"github.com/AdiaElena/checkout-service/core/repository"
+	"github.com/AdiaElena/checkout-service/core/src/repository"
 	"github.com/stretchr/testify/assert"
 )
 

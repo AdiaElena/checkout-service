@@ -3,7 +3,7 @@ package repository
 import (
 	"fmt"
 
-	"github.com/AdiaElena/checkout-service/core/model"
+	"github.com/AdiaElena/checkout-service/core/src/model"
 )
 
 type PricingRepository interface {
