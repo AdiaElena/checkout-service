@@ -13,6 +13,7 @@ type checkoutService struct {
 
 var _ ICheckout = (*checkoutService)(nil)
 
+// NewCheckoutService returns an ICheckout configured with repo’s pricing rules.
 func NewCheckoutService(repo repository.PricingRepository) ICheckout {
 	return &checkoutService{
 		pricingRepo: repo,

@@ -1,0 +1,83 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/checkout": {
+            "post": {
+                "description": "Accepts a list of SKUs, scans them all, and returns the total price.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "checkout"
+                ],
+                "summary": "Scan multiple items and calculate total",
+                "parameters": [
+                    {
+                        "description": "Basket SKUs",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CheckoutRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Total price",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CheckoutResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid SKU or JSON)",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.CheckoutRequest": {
+            "type": "object",
+            "required": [
+                "skus"
+            ],
+            "properties": {
+                "skus": {
+                    "description": "List of SKUs to scan at checkout (each must be a single uppercase letter)\nrequired: true",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "dto.CheckoutResponse": {
+            "type": "object",
+            "properties": {
+                "total": {
+                    "description": "Total price for all scanned items\nrequired: true",
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "description": "Error message\nrequired: true",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

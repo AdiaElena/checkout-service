@@ -1,0 +1,59 @@
+definitions:
+  dto.CheckoutRequest:
+    properties:
+      skus:
+        description: |-
+          List of SKUs to scan at checkout (each must be a single uppercase letter)
+          required: true
+        items:
+          type: string
+        type: array
+    required:
+    - skus
+    type: object
+  dto.CheckoutResponse:
+    properties:
+      total:
+        description: |-
+          Total price for all scanned items
+          required: true
+        type: integer
+    type: object
+  dto.ErrorResponse:
+    properties:
+      error:
+        description: |-
+          Error message
+          required: true
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /checkout:
+    post:
+      consumes:
+      - application/json
+      description: Accepts a list of SKUs, scans them all, and returns the total price.
+      parameters:
+      - description: Basket SKUs
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CheckoutRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Total price
+          schema:
+            $ref: '#/definitions/dto.CheckoutResponse'
+        "400":
+          description: Bad request (invalid SKU or JSON)
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Scan multiple items and calculate total
+      tags:
+      - checkout
+swagger: "2.0"
