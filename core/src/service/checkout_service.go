@@ -21,6 +21,8 @@ func NewCheckoutService(repo repository.PricingRepository) ICheckout {
 	}
 }
 
+// Scan adds one unit of the given SKU to the current cart.
+// Returns an error if the SKU is invalid.
 func (c *checkoutService) Scan(sku string) error {
 	if !c.pricingRepo.IsValidSKU(sku) {
 		return fmt.Errorf("invalid SKU: %q", sku)
@@ -29,6 +31,8 @@ func (c *checkoutService) Scan(sku string) error {
 	return nil
 }
 
+// GetTotalPrice calculates the total price for all scanned items,
+// applying any special‑price rules. Returns an error if pricing lookup fails.
 func (c *checkoutService) GetTotalPrice() (int, error) {
 	total := 0
 	for sku, qty := range c.items {

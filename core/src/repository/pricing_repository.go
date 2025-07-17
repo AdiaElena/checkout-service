@@ -6,8 +6,12 @@ import (
 	"github.com/AdiaElena/checkout-service/core/src/model"
 )
 
+// PricingRepository defines how to retrieve pricing rules
+// and verify SKU validity.
 type PricingRepository interface {
+	// GetPricingRule looks up the rule for sku and returns an error if not found.
 	GetPricingRule(sku string) (*model.PricingRule, error)
+	// IsValidSKU returns true if sku exists in the pricing rules map.
 	IsValidSKU(sku string) bool
 }
 
@@ -15,6 +19,8 @@ type pricingRepo struct {
 	rules map[string]*model.PricingRule
 }
 
+// NewPricingRepository constructs a PricingRepository pre‑populated
+// with the default in‑memory pricing rules (A, B, C, D).
 func NewPricingRepository() PricingRepository {
 	return &pricingRepo{
 		rules: map[string]*model.PricingRule{
