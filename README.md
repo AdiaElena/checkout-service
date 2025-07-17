@@ -48,10 +48,10 @@ Before you commit, you can run the following checks from your project root (wher
 # 1. Format & imports
 go fmt ./...
 
-# 2. Vet & lint
+# 2. Vet
 go vet ./...
 
-# 3. Module hygiene
+# 3. Module clean
 go mod tidy
 
 # 4. Regenerate Swagger (if any handler/DTOs changed)
